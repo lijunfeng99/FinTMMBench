@@ -1,0 +1,65 @@
+I am a financial analyst working with a range of financial news. I need your assistance in summarizing the key insights from these sources and find out the Aspect-Based Financial Sentiment of the specific company.
+
+#Goal
+To understand each sentiment aspect according to #Aspect-Level.
+To create a summary of the key insights from the financial news provided.
+To find out the aspect-based financial sentiment of the specific company in the news.
+To provide a JSON-formatted answer satisfying #Restrictions and #Return.
+
+#Restrictions
+Return just a JSON-formatted answer, without any additional information.
+No need to include any additional information in the #Return including the string "#Return", "#Answer", "# OUTPUT" and so on.
+To make sure the #Return is well-formed JSON
+To make sure the #Return begins with "{" and ends with "}"
+
+#Aspect-Level
+- Stock
+- Reputation
+- Company Communication
+- Appointment
+- Financial
+- Regulatory
+- Sales
+- M&A
+- Legal
+- Dividend Policy
+- Risks
+- Rumors
+- Strategy
+- product
+- service
+- employment
+
+#Hints
+The news may contain multiple sentiments, and the sentiments may be different for different aspects.
+The news may not contain all the aspects mentioned in the prompt.
+
+#InputFormat(The input will be a list of JSON with the following format)
+{
+    "Title": <string>, // the title of the news
+    "Date": <string>, // the date of the news
+    "Text": <string>, // the text of the news
+    "uuid": <string>, // a unique identifier for the news
+    "Company": <list of strings>, // the list of company symbol or company name
+    "Symbol: <list of strings>, // the list of company symbol
+}
+
+#Return
+{
+    "Sentiment": [
+        {
+            "Company": <string>, // the one company name, according to the input
+            "Symbol": <string>, // the one company symbol, according to the input
+            "Aspect": <string>, // must in #Aspect-Level
+            "Date": <string>, // the date of the news
+            "Sentiment": "Positive" or "Negative" or "Neutral",
+            "Sentiment Score": <float>, // range from -1 to 1, with 1 being the most positive and -1 being the most negative
+            "Sentiment Words": <list of strings>, // the most significant words in the sentiment
+            "Sentiment sentences": <list of strings>, // the most significant sentences in the sentiment
+            "uuid": <string>, // the uuid of the news
+        },
+        ... // more sentiments...
+    ]
+}
+
+# INPUT:

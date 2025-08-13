@@ -1,0 +1,156 @@
+I am a financial analyst working with a range of Stock Prices. I need your assistance in summarizing the key insights from these sources and addressing the most pressing questions investors might have.
+
+#Goal
+To create a summary of the key insights from the Stock Prices provided.
+To generate two more questions as possible based on the #QuestionGuidance provided.
+To calculate some relevant ratios or indicators if necessary based on the data in #Input.
+To answer the questions based on the provided data and what your calculation, #AnswerGuidance and #Hints.
+To support your answer with some sources of the data in #Input.
+To provide a well-formatted JSON-formatted answer without breaking #Restrictions.
+
+#Restrictions
+Do not include information where the #Input for it is not provided.
+Return just a JSON-formatted answer, without any additional information.
+No need to include any additional information in the #Return including the string "#Return", "#Answer", "# OUTPUT" and so on.
+To make sure the #Return is well-formed JSON
+To make sure the #Return begins with "{" and ends with "}"
+All the sources in #Return must be the same as the data in #Input. Create a new source(e.g. a new indicator_name) is not allowed.
+All the questions in #Return must have answers.
+All the questions and answers must be in English.
+All the number rounding should be done to two decimal places.
+
+#QuestionGuidance
+1. Understand the Question Schema in #INPUT
+2. The thing in "[]"(e.g. [Company]/[Indicator]/[date]) means the name of the company/ticker symbol/date/quarter/year/indicator/unit.
+3. The thing in "{}"(e.g. {value}/{percentage}/{trend}) means the value/percentage/trend of the indicator.
+4. There are some parameters like "[X]","[Y]","[Z]","[Q]", "[P]", etc. in the #INPUT. Please replace them with the actual values.
+5. Please replace all the the thing in "[]" and "{}" based on the data in #INPUT
+6. Make sure all the assumptions(like the number of the outstanding shares, only "Given the outstanding shares" is not allowed, "Given the outstanding shares is 10000000" is correct) in the Question Schema is contained the Question you generated.
+7. Rewrite the question with your own words but must not change the meaning of the question.
+8. Please note the Interval, if the Interval is "Quarter" and the date is "2022-03-31", then the quarter is "Q1 2022". So you can use "Q1 2022" instead of "2022-03-31" in the question. If the Interval is "Year", then the date is "2022-12-31", you can use "2022 Year Report" instead of "2022-12-31" in the question.
+
+#AnswerGuidance
+1. Understand the Guidelines in #INPUT
+2. Read the #Hints carefully and find out the type of question in #INPUT.
+3. Read the #Example carefully and understanding how to provide the answer and step-by-step explanation.
+4. The answer is summarized from the step-by-step explanation, usually the final result of the calculation.
+5. Follow the guidelines and your understanding of #Hints to answer the question step by step.
+6. Show all the steps you have taken to answer the question.
+
+#Example
+##Example 1: 
+Question: Has the Amazon com Inc's nonInterestIncome trend kept pace with Netflix Inc's nonInterestIncome growth from 2022Q2 to 2022Q4?
+Answer: No
+Explanation: 
+- Step1: Explanation(The nonInterestIncome of Amazon com Inc in 2022Q2 was 1.25 billion USD, the nonInterestIncome of Amazon com Inc in 2022Q4 was 1.35 billion USD. It increased 0.10 billion USD), equation(1.35-1.25=0.10)
+- Step2: Explanation(The nonInterestIncome of Netflix Inc in 2022Q2 was 1.15 billion USD, the nonInterestIncome of Netflix Inc in 2022Q4 was 1.25 billion USD. It increased 0.10 billion USD), equation(1.25-1.15=0.10)
+- Step3: Explanation(The increasing rate of Amazon com Inc's was 8.00%), equation(0.10/1.25*100%=8.00%)
+- Step4: Explanation(The increasing rate of Netflix Inc's was 8.70%), equation(0.10/1.15*100%=8.70%)
+- Step5: Explanation(The increasing rate of Amazon com Inc's was lower than Netflix Inc's. Thus, the answer is No.), equation(8.00% < 8.70%)
+
+##Example 2: 
+Question: What is the P/S ratio of Adobe Inc. on 2022-03-04?
+Answer: 0.94
+Explanation: 
+- Step1: Explanation(The total revenue of Adobe Inc. on 2022-03-04 was 4262000000 USD), equation("")
+- Step2: Explanation(The outstanding shares of Adobe Inc. was 10000000), equation("")
+- Step3: Explanation(The sales per share of Adobe Inc. on 2022-03-04 was 426.20 USD), equation(4262000000 / 10000000 = 426.20)
+- Step4: Explanation(The P/S ratio of Adobe Inc. on 2022-03-04 was 0.94. Thus the answer is 0.94.), equation(400 / 426.20 = 0.94)
+
+##Example 3:
+Question: Which company had a higher Dividend Yield Ratio on July 22, 2022, between Amazon with 1000000000 shares and a dividend payout of 1.00 USD, or Apple Inc. with 1600000000 shares and a dividend payout of 0.92 USD?
+Answer: Amazon Inc.
+Explanation: 
+- Step1: Explanation(The dividend payout of Amazon Inc. on July 22, 2022 was 1.00 USD), equation("")
+- Step2: Explanation(The outstanding shares of Amazon Inc. was 1000000000), equation("")
+- Step3: Explanation(The Dividend per share of Amazon Inc. on July 22, 2022 was 0.000001 USD), equation(1.00 / 1000000000 = 0.000001)
+- Step4: Explanation(The Dividend Yield Ratio of Amazon Inc. on July 22, 2022 was 0.000000823%), equation(0.000001 / 121.3504 = 0.00000000823)
+- Step5: Explanation(The dividend payout of Apple Inc. on July 22, 2022 was 0.92 USD), equation("")
+- Step6: Explanation(The outstanding shares of Apple Inc. was 1600000000), equation("")
+- Step7: Explanation(The Dividend per share of Apple Inc. on July 22, 2022 was 0.000000575 USD), equation(0.92 / 1600000000 = 0.000000575)
+- Step8: Explanation(The Dividend Yield Ratio of Apple Inc. on July 22, 2022 was 0.000000374%), equation(0.000000575 / 153.41 = 0.00000000374)
+- Step9: Explanation(The Dividend Yield Ratio of Amazon Inc. on July 22, 2022 was higher than the Dividend Yield Ratio of Apple Inc. Thus, the answer is Amazon Inc.), equation(0.000000823 > 0.000000374)
+
+##Example 4:
+Question: As of March 31, 2022, which company has the highest price-to-sales (P/S) ratio among Adobe Inc., American Electric Power, and Apple Inc., given the outstanding shares of 500000000, 200000000, and 17000000000, and stock prices of 487.50 USD, 82.00 USD, and 175.00 USD respectively?
+Answer: Apple Inc.
+Explanation: 
+- Step1: Explanation(The total revenue of Adobe Inc. on March 31, 2022 was 4262000000 USD), equation("")
+- Step2: Explanation(The outstanding shares of Adobe Inc. was 500000000), equation("")
+- Step3: Explanation(The sales per share of Adobe Inc. on March 31, 2022 was 8.524 USD), equation(4262000000 / 500000000 = 8.524)
+- Step4: Explanation(The P/S ratio of Adobe Inc. on March 31, 2022 was 1.72%.), equation(8.524 / 487.50 * 100% = 1.72%)
+- Step5: Explanation(The total revenue of American Electric Power on March 31, 2022 was 4592600000 USD), equation("")
+- Step6: Explanation(The outstanding shares of American Electric Power was 200000000), equation("")
+- Step7: Explanation(The sales per share of American Electric Power on March 31, 2022 was 22.963 USD), equation(4592600000 / 200000000 = 22.963)
+- Step8: Explanation(The P/S ratio of American Electric Power on March 31, 2022 was 2.80%), equation(22.963 / 82.00 * 100% = 2.80%)
+- Step9: Explanation(The total revenue of Apple Inc. on March 31, 2022 was 96587000000 USD), equation("")
+- Step10: Explanation(The outstanding shares of Apple Inc. was 17000000000), equation("")
+- Step11: Explanation(The sales per share of Apple Inc. on March 31, 2022 was 5.68 USD), equation(96587000000 / 17000000000 = 5.68)
+- Step12: Explanation(The P/S ratio of Apple Inc. on March 31, 2022 was 3.25%), equation(5.68 / 175.00 * 100% = 3.25%)
+- Step13: Explanation(The Apple Inc. has the highest P/S ratio of 3.25% among the three companies. Thus, the answer is Adobe Inc.), equation(3.25% > 1.72% and 3.25% > 2.80%)
+
+#Hints
+Different types of questions mean different ways of answering them. Here are some guidelines to help you answer the question:
+- **Extraction:** Find out the value of the indicator in the given date/quarter/year and the company/ticker symbol.
+- **Comparison:** Compare the value of the indicator in different companies/tickers over a certain period of time.
+- **Trend:** Identify the trend of the indicator in the given date/quarter/year and the company/ticker symbol.
+- **Calculation:** Calculate the ratio or percentage of the indicator based on the given data and show how it is calculated in the answer.
+- **Sorting:** Arrange the items or data based on specific criteria, like size or date.
+- **Counting**: Determine the total number of occurrences or items in a dataset.
+- **Logical Reasoning**: Draw conclusions based on given information, evaluating arguments or scenarios.
+- **Counterfactual**: Explore hypothetical scenarios by considering how changes in variables could alter outcomes.
+
+#InputFormat
+The input will be a list of JSON with the following format:
+{
+    "QuestionSchema": "Question Schema",
+    "Guidelines": "Guidelines",
+    "Type": "type of Question",
+    "data": [
+        {
+            "Company": "Company Name",
+            "Symbol": "Ticker Symbol",
+            "Date": "YYYY-MM-DD",
+            "Interval": "Date/Quarter/Year",  // Can be "Date", "Quarter", "Year", etc.
+            "indicator_name": "Indicator Name",  // e.g., "Open", "Close", "revenue", "net_income"
+            "indicator_value": NumericValue,  // e.g., 173.80 or 820000000
+            "unit": "Unit"  // e.g., "USD", "SGD", "million USD"
+            "UUID": uuid,
+            "SourceType": "type of the data"  // e.g., "FinancialTable", "StockPrice", etc.
+        },
+        ...
+    ]
+}
+
+#Return
+{
+    "questions": [
+        {
+            "question":<first question you generated>,
+            "answers": [
+                {
+                    "answer": <Answer to the first question>, // Summary of the explanation and calculation.
+                    "explanation": [
+                        {
+                            "explanation": <detailed explanation of the answer>,
+                            "equation": <only one mathematical equation used to calculate the answer if applicable else empty string>,
+                        }, //step1 explanation and equation
+                        {
+                            "explanation": <detailed explanation of the answer>,
+                            "equation": <only one mathematical equation used to calculate the answer if applicable else empty string>,
+                        }, //step2 explanation and equation
+                        ... // more explanations and equations can be added here.
+                    ]
+                    "confidence": <confidence score of the answer, range from 0 to 1>,
+                    "source": [ //source of the answer, the number of sources can be more than 5.
+                        <uuid>, <uuid>, <uuid>,  ...
+                    ]
+                },
+                ... // more answers can be added here.
+            ]
+        },
+        ... // all questions are independent, and the process must be rewritten for each question even if similar.
+    ],
+}
+
+# INPUT:

@@ -1,0 +1,92 @@
+I am a financial analyst working with a range of financial news. I need your assistance in summarizing the key insights from these sources and addressing the most pressing questions investors might have.
+
+#Goal
+To create a summary of the key insights from the financial news provided.
+To generate two more questions as possible based on the #QuestionGuidance provided.
+To calculate some relevant ratios or indicators if necessary based on the data in #Input.
+To answer the questions based on the provided data and what your calculation, #AnswerGuidance and #Hints.
+To support your answer with some sources of the data in #Input.
+To provide a well-formatted JSON-formatted answer without breaking #Restrictions.
+
+#QuestionGuidance
+1. Understand the Question Schema in #INPUT
+2. The thing in "[]"(e.g. [Company]/[Indicator]/[date]) means the name of the company/ticker symbol/date/quarter/year/indicator/unit.
+3. The thing in "{}"(e.g. {value}/{percentage}/{trend}) means the value/percentage/trend of the indicator.
+4. Please replace all the the thing in "[]" and "{}" based on the data in #INPUT
+5. Rewrite the question but must not change the meaning of the question.
+
+#AnswerGuidance
+1. Understand the Guidelines in #INPUT
+2. Read the #Hints carefully and find out the type of question in #INPUT.
+3. Read the #Example carefully and understanding how to provide the answer and explanation.
+4. Follow the guidelines and your understanding of #Hints to answer the question step by step.
+5. Show all the steps you have taken to answer the question.
+
+#Example
+Question: Has the Amazon com Inc's nonInterestIncome trend kept pace with Netflix Inc's nonInterestIncome growth?
+Answer: No
+Explanation: For Amazon com Inc, the nonInterestIncome increased by $87,770,000,000 from 2024-06-30 to 2024-03-31, and by $119,575,000,000 from 2024-03-31 to 2023-12-31. The corresponding growth rates are +49.60% and +145.24%. For Netflix Inc, the nonInterestIncome increased by $85,777,000,000 from 2024-06-30 to 2024-03-31, and by $97,530,000,000 from 2024-03-31 to 2023-12-31. The corresponding growth rates are +54.32% and +81.46%. Therefore, the growth trend of nonInterestIncome for Amazon com Inc has not kept pace with Netflix Inc's growth as the growth rates for Netflix Inc are higher.
+
+#Restrictions
+Return just a JSON-formatted answer, without any additional information.
+No need to include any additional information in the #Return including the string "#Return", "#Answer", "# OUTPUT" and so on.
+To make sure the #Return is well-formed JSON
+To make sure the #Return begins with "{" and ends with "}"
+
+#Hints
+The news may contain multiple sentiments, and the sentiments may be different for different aspects.
+Different types of questions mean different ways of answering them. Here are some guidelines to help you answer the question:
+- **Extraction:** Find out the value of the indicator in the given date/quarter/year and the company/ticker symbol.
+- **Comparison:** Compare the value of the indicator in different companies/tickers over a certain period of time.
+- **Trend:** Identify the trend of the indicator in the given date/quarter/year and the company/ticker symbol.
+- **Calculation:** Calculate the ratio or percentage of the indicator based on the given data and show how it is calculated in the answer.
+- **Sorting:** Arrange the items or data based on specific criteria, like size or date.
+- **Counting**: Determine the total number of occurrences or items in a dataset.
+- **Logical Reasoning**: Draw conclusions based on given information, evaluating arguments or scenarios.
+- **Counterfactual**: Explore hypothetical scenarios by considering how changes in variables could alter outcomes.
+
+
+#InputFormat
+The input will be a list of JSON with the following format:
+{
+    "QuestionSchema": "Question Schema",
+    "Guidelines": "Guidelines",
+    "Type": "type of Question",
+    "data": [
+        {
+            "Company": <string>, // the company name
+            "Aspect": <string>, // must in #Aspect-Level
+            "Date": <string>, // the date of the news
+            "Sentiment": "Positive" or "Negative" or "Neutral",
+            "Sentiment Score": <float>, // range from -1 to 1, with 1 being the most positive and -1 being the most negative
+            "Sentiment Words": <list of strings>, // the most significant words in the sentiment
+            "Sentiment sentences": <list of strings>, // the most significant sentences in the sentiment
+            "UUID": <string>, // the UUID of the news
+        },
+        // more sentiments...
+    ]
+}
+
+#Return
+{
+    "questions": [
+        {
+            "question":<first question you generated>,
+            "answers": [
+                {
+                    "answer": <short answer to the first question>, // Can be "Yes", "No", a name of a company, a number, etc.
+                    "explanation": <explanation to the first question>,
+                    "confidence": <confidence score of the answer>,
+                    "source": [ //source of the answer, the number of sources can be more than 5.
+                        <uuid>, <uuid>, <uuid>,  ...
+                    ]
+                },
+                // more answers can be added here.
+            ]
+        },
+        // another questions can be added here.
+    ],
+}
+
+
+# INPUT:

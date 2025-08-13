@@ -1,0 +1,186 @@
+I am a financial analyst working with a range of financial news.
+I need your assistance in extracting the event of the specific company.
+I also need your assistance in summarizing the key insights from these sources and find out the Aspect-Based Financial Sentiment of the specific company.
+A event contains Company, Date, Event, Place and UUID.
+
+#Goal
+To understand News I give you.
+To extract the all event of the specific company. 
+To understand each sentiment aspect according to #Aspect-Level.
+To create a summary of the key insights from the financial news provided.
+To find out the aspect-based financial sentiment of the specific company in the news.
+To provide a JSON-formatted answer satisfying #Restrictions and #Return.
+Based on these facts, generate several investor-relevant Q&A. The questions should focus on company financial performance, future outlook, market competition, risks, or other points of interest to investors.
+Please following the #Questionguideline, but the Unknown information should not be included in the question.
+All the question should include the company name, date, and event.
+The #Hints I provide can help you to extract the event of the specific company.
+
+#Restrictions
+The answer should not be "Unknown" for any of the fields.
+Return just a JSON-formatted answer, without any additional information.
+No need to include any additional information in the #Return including the string "#Return", "#Answer", "# OUTPUT" and so on.
+To make sure the #Return is well-formed JSON
+To make sure the #Return begins with "{" and ends with "}"
+
+#Hints
+There can be more than one event in the news. Please extract as many events as possible.
+The news may not contain some elements such as "Place", you can assume it as "Unknown"
+The news may contain multiple sentiments, and the sentiments may be different for different aspects.
+The news may not contain all the aspects mentioned in the prompt.
+
+#Aspect-Level
+- Stock
+- Reputation
+- Company Communication
+- Appointment
+- Financial
+- Regulatory
+- Sales
+- M&A
+- Legal
+- Dividend Policy
+- Risks
+- Rumors
+- Strategy
+- product
+- service
+- employment
+
+#Questionguideline
+1. The question and answer should contain the company name and date.
+2. The question should related to the company show in #Input.
+3. Unknown information should not be included in the question.
+4. Ensure the questions are clear and directly related to the facts in the text, and that the answers are concise.
+5. See the #Eaxmple below for more details.
+
+#Example
+Inputexample:
+{
+    "Title": "Tesla's Q4 2022 Earnings Report",
+    "Date": "2022-01-03",
+    "Text": "Tesla Inc. (TSLA) announced record deliveries for Q4 2022, surpassing Wall Street estimates. The company's stock rose 7.1% in premarket trading. RBC revised their Q4 2022 revenue estimate to $17.6 billion from $15.3 billion, based on updated delivery figures. Wedbush also raised Tesla's price target to $1,400.",
+    "UUID": "uuid",
+    "Company": ["Tesla"]
+    "Symbol": ["TSLA"]
+}
+Outputexample:
+{
+    "Events": [
+        {
+            "Company": "Tesla",
+            "Date": "2022-01-03",
+            "Event": "Tesla reported record Q4 2022 deliveries, exceeding Wall Street estimates.",
+            "Place": "Unknown",
+            "UUID": "uuid"
+        },
+        {
+            "Company": "Tesla",
+            "Date": "2022-01-03",
+            "Event": "RBC revised Tesla's Q4 2022 revenue estimate from $15.3 billion to $17.6 billion.",
+            "Place": "Unknown",
+            "UUID": "uuid"
+        },
+        {
+            "Company": "Tesla",
+            "Date": "2022-01-03",
+            "Event": "Wedbush raised Tesla's price target to $1,400.",
+            "Place": "Unknown",
+            "UUID": "uuid"
+        }
+    ],
+    "questions": [
+        {
+            "question": "What were Tesla's Q4 2022 deliveries compared to Wall Street estimates?",
+            "answers": [
+                {
+                    "answer": "Tesla's Q4 2022 deliveries surpassed Wall Street estimates.",
+                    "explanation": "Tesla announced record deliveries for Q4 2022, significantly exceeding Wall Street expectations.",
+                    "confidence": <number between 0 and 1>,
+                    "source": ["uuid"]
+                }
+            ]
+        },
+        {
+            "question": "How did RBC revise Tesla's revenue estimate for Q4 2022?",
+            "answers": [
+                {
+                    "answer": "RBC raised Tesla's Q4 2022 revenue estimate to $17.6 billion from $15.3 billion.",
+                    "explanation": "RBC increased their revenue estimate based on updated delivery figures.",
+                    "confidence": <number between 0 and 1>,
+                    "source": ["uuid"]
+                }
+            ]
+        }
+    ],
+    "Sentiment": [
+        {
+            "Company": "Tesla",
+            "Symbol": "TSLA",
+            "Aspect": "Earnings",
+            "Date": "2022-01-03",
+            "Sentiment": "Positive",
+            "Sentiment Score": 0.8,
+            "Sentiment Words": ["record", "deliveries", "surpassing", "Wall", "Street", "estimates"],
+            "Sentiment sentences": ["Tesla reported record Q4 2022 deliveries, exceeding Wall Street estimates."],
+            "uuid": "uuid"
+        }
+    ]
+}
+
+
+#InputFormat(The input will be a list of JSON with the following format)
+{
+    "Title": <string>, // the title of the news
+    "Date": <string>, // the date of the news
+    "Text": <string>, // the text of the news
+    "uuid": <string>, // a unique identifier for the news
+    "Company": <list of strings>, // the list of company symbol or company name
+    "Symbol: <list of strings>, // the list of company symbol
+}
+
+#Return
+{
+    "Events": [
+        {
+            "Company": <string>, // the company name, according to the input
+            "Date": <string>, // the date of the news
+            "Event": <string>, // the event of the company, according to the input
+            "Place": <string>, // the place of the event, if it exists in the news, otherwise "Unknown"
+            "UUID": <string>, // the uuid of the news
+        },
+        ... // more events... as more as possible
+    ],
+    "questions": [
+        {
+            "question":<first question you generated>,
+            "answers": [
+                {
+                    "answer": <short answer to the first question>, // Can be "Yes", "No", a name of a company, a number, etc.
+                    "explanation": <explanation to the first question>,
+                    "confidence": <confidence score of the answer>,
+                    "source": "source": [ //source of the answer, the number of sources can be more than 5.
+                        <uuid>, <uuid>, <uuid>,  ...
+                    ]
+                },
+                ... // more answers can be added here.
+            ]
+        },
+        ... // another questions can be added here. as more as possible
+    ],
+    "Sentiment": [
+        {
+            "Company": <string>, // the one company name, according to the input
+            "Symbol": <string>, // the one company symbol, according to the input
+            "Aspect": <string>, // must in #Aspect-Level
+            "Date": <string>, // the date of the news
+            "Sentiment": "Positive" or "Negative" or "Neutral",
+            "Sentiment Score": <float>, // range from -1 to 1, with 1 being the most positive and -1 being the most negative
+            "Sentiment Words": <list of strings>, // the most significant words in the sentiment
+            "Sentiment sentences": <list of strings>, // the most significant sentences in the sentiment
+            "uuid": <string>, // the uuid of the news
+        },
+        ... // more sentiments...
+    ]
+}
+
+# INPUT:

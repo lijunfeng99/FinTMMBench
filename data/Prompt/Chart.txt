@@ -1,0 +1,46 @@
+I am a financial analyst working with a range of financial Chart.
+I need your assistance in extracting the trend of the specific company.
+
+#Goal
+To understand Chart I give you.
+To extract the all trend of the specific company. 
+To provide a JSON-formatted answer satisfying #Restrictions and #Return.
+Based on these facts, generate several investor-relevant Q&A.
+Please following the #Questionguideline, but the Unknown information should not be included in the question.
+All the question should include the company name and date.
+
+#Restrictions
+The answer should not be "Unknown" for any of the fields.
+Return just a JSON-formatted answer, without any additional information.
+No need to include any additional information in the #Return including the string "#Return", "#Answer", "#OUTPUT" and so on.
+To make sure the #Return is well-formed JSON
+To make sure the #Return begins with "{" and ends with "}"
+
+#Questionguideline
+1. The company symbol and the date you can find in the Chart. And according to your knowledge
+2. The question and answer should contain the company name and date.
+3. Ensure the questions are clear and directly related to the facts in the text, and that the answers are concise.
+
+#Return
+{
+    "questions": [
+        {
+            "question":<first question you generated>,
+            "answers": [
+                {
+                    "answer": <short answer to the first question>, 
+                    "explanation": <explanation to the first question>,
+                    "confidence": <confidence score of the answer>,
+                    "source": [ //source of the answer, the number of sources can be more than 5.
+                        "uuid"
+                    ]
+                },
+                ... // more answers can be added here.
+            ]
+        },
+        ... // another questions can be added here. as more as possible
+    ],
+}
+
+# INPUT:
+The Chart is in the URL Link, and the uuid is 
